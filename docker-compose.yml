@@ -1,0 +1,29 @@
+wp:
+  build: '.'
+  dockerfile: 'Dockerfile'
+  ports:
+    - "80"
+  links:
+    - 'db:mysql'
+  environment:
+    WP_DEBUG: 'true'
+    ENV: 'dev'
+    DBNAME: 'wp-inspired'
+    DBUSER: 'root'
+    DBPASS: 'dev'
+    WORDPRESS_URL: 'wp.dev'
+    WORDPRESS_ADMIN_EMAIL: 'wp@localhost'
+    WORDPRESS_ADMIN_NAME: 'admin'
+    WORDPRESS_ADMIN_PASS: 'dev'
+    VIRTUAL_HOST: 'wp.dev'
+
+  volumes:
+    - '.:/var/www/html/wp-content/plugins/wp-admin-pages'
+    - './example:/var/www/html/wp-content/admin-pages'
+db:
+  image: 'mysql:5.7.14'
+  environment:
+    MYSQL_ROOT_PASSWORD: 'dev'
+    MYSQL_DATABASE: 'wp'
+  ports:
+   - '3306:3306'
